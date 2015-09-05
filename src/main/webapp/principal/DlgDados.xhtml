@@ -15,26 +15,29 @@ and open the template in the editor.
       <h:body style="font-size: 12px;">
             <h:form>
                   <p:panel>
+                        <p:messages showDetail="true" showSummary="true" />
                         <f:facet name="header">Dados Importados</f:facet>
-                        <p:dataTable var="pessoa" value="#{getDadosBean.pessoas}">
+                        <p:dataTable var="pessoa" value="#{getDadosBean.listaPessoa}">
                               <p:column headerText="Nome">
                                     <h:outputLabel value="#{pessoa.nome}" />
                               </p:column>
-                              <p:column headerText="CPF">
-                                    <p:inputMask mask="999.999.999-9" value="#{pessoa.cpf}"/>
+                              <p:column headerText="CPF" style="width: 15%;text-align: center">
+                                    <h:outputLabel value="#{pessoa.cpf}"/>
                               </p:column>
-                              <p:column headerText="Salário">
-                                    <h:outputLabel value="#{pessoa.nome}">
+                              <p:column headerText="Salário" style="width: 10%;text-align: center">
+                                    <h:outputLabel value="#{pessoa.salario}">
                                           <f:convertNumber minFractionDigits="2" currencySymbol="R$" locale="pt_BR" />
                                     </h:outputLabel>
                               </p:column>
-                              <p:column headerText="Data Pagamento">
+                              <p:column headerText="Data Pagamento" style="width: 16%;text-align: center">
                                     <h:outputLabel value="#{pessoa.dataPagamento}">
                                           <f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy" dateStyle="medium" />
                                     </h:outputLabel>
                               </p:column>
-                              <p:column headerText="Ação" style="width: 10%">
-                                    <p:commandButton icon="ui-icon-clear" />
+                              <p:column headerText="Ação" style="width: 8%;text-align: center">
+                                    <p:commandButton icon="ui-icon-trash" action="#{getDadosBean.deletar}" update="@form">
+                                          <f:setPropertyActionListener value="#{pessoa}" target="#{getDadosBean.pessoa}" />
+                                    </p:commandButton>
                               </p:column>
                         </p:dataTable>
                   </p:panel>

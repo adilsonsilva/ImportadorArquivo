@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.importadorarquivo.modelo.entidade;
 
+import br.com.importadorarquivo.util.MetodoUtil;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -16,8 +16,8 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Temporal;
-import javax.persistence.TemporalType; 
-import javax.persistence.SequenceGenerator; 
+import javax.persistence.TemporalType;
+import javax.persistence.SequenceGenerator;
 
 /**
  *
@@ -35,23 +35,23 @@ public class Pessoa implements Serializable {
 
       public Pessoa() {
       }
-                 
+
       @Id
-      @SequenceGenerator(name = "SEQ_PESSOA",initialValue = 1, sequenceName = "SEQ_PESSOA")
+      @SequenceGenerator(name = "SEQ_PESSOA", sequenceName = "SEQ_PESSOA")
       @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PESSOA")
-      @Column(name="ID_PESSOA")
+      @Column(name = "ID_PESSOA")
       private Integer id;
-      
-      @Column(name="NOME_PESSOA",length = 50)
+
+      @Column(name = "NOME_PESSOA", length = 50)
       private String nome;
-      
+
       @Column(length = 15)
       private String cpf;
-      
+
       @Column(precision = 14, scale = 2)
       private BigDecimal salario;
-      
-      @Column(name="DATA_PAGAMENTO")
+
+      @Column(name = "DATA_PAGAMENTO")
       @Temporal(TemporalType.DATE)
       private Date dataPagamento;
 
@@ -80,11 +80,19 @@ public class Pessoa implements Serializable {
       }
 
       public String getCpf() {
-            return cpf;
+            return MetodoUtil.mascararCpf(cpf);
       }
 
       public void setCpf(String cpf) {
             this.cpf = cpf;
+      }
+
+      public Date getDataPagamento() {
+            return dataPagamento;
+      }
+
+      public void setDataPagamento(Date dataPagamento) {
+            this.dataPagamento = dataPagamento;
       }
 
       @Override
@@ -107,14 +115,6 @@ public class Pessoa implements Serializable {
                   return false;
             }
             return true;
-      }
-
-      public Date getDataPagamento() {
-            return dataPagamento;
-      }
-
-      public void setDataPagamento(Date dataPagamento) {
-            this.dataPagamento = dataPagamento;
       }
       
 }

@@ -34,16 +34,19 @@ public class ImportadorTxt implements InterfaceImportador {
 
                   String line;
                   while ((line = br.readLine()) != null) {
+                        
                         String nome = line.substring(0, 50);
-                        String cpf = line.substring(50, 61); 
-                        BigDecimal valor = new BigDecimal(new Double(line.substring(61, 68)));
-                        Date data = new Date(line.substring(71, 81));
-                        pessoasImportadas.add(new Pessoa(nome, cpf, valor, data));
+                        String cpf = line.substring(51, 62); 
+                        BigDecimal valor = new BigDecimal(new Double(line.substring(62, 71)));
+                        Date data = new Date(line.substring(72, 82));
+                        Pessoa p = new Pessoa(nome, cpf, valor, data);
+                        pessoasImportadas.add(p);                        
                   }
             } catch (IOException ex) {
                   System.out.println("Erro" + ex.getMessage());
             }
             return pessoasImportadas;
       }
+   
    
 }

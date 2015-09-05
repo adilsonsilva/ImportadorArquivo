@@ -1,5 +1,6 @@
 package br.com.importadorarquivo.util;
 
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -21,7 +22,7 @@ public class HibernateUtil {
 
                   return configuration.buildSessionFactory(serviceRegistry);
 
-            } catch (Throwable ex) {
+            } catch (HibernateException ex) {
                   // Make sure you log the exception, as it might be swallowed
                   System.err.println("Initial SessionFactory creation failed." + ex);
                   throw new ExceptionInInitializerError(ex);

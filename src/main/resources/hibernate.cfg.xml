@@ -15,7 +15,7 @@
             <property name="hbm2ddl.auto">update</property>
             <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
     
-            <mapping class="br.com.importadorxls.modelo.entidade.Pessoa" />
+            <mapping class="br.com.importadorarquivo.modelo.entidade.Pessoa" />
       </session-factory>
 </hibernate-configuration>
 

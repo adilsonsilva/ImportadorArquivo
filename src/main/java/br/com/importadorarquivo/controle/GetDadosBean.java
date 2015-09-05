@@ -8,9 +8,8 @@ package br.com.importadorarquivo.controle;
 import br.com.importadorarquivo.controle.service.InterfaceImportador;
 import br.com.importadorarquivo.modelo.entidade.Pessoa;
 import br.com.importadorarquivo.modelo.entidade.TipoImportacao;
-import br.com.importadorarquivo.modelo.persistence.InterfaceDAO;
-import br.com.importadorarquivo.util.DAOFactory;
-import br.com.importadorarquivo.util.MensagemUtil;
+import br.com.importadorarquivo.modelo.rn.PessoaRN;
+import br.com.importadorarquivo.util.MetodoUtil;
 import java.io.IOException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -33,15 +32,10 @@ import org.primefaces.event.SelectEvent;
 @ViewScoped
 public class GetDadosBean implements Serializable {
 
-      private final InterfaceDAO dao;
       private List<Pessoa> pessoas = new ArrayList<>();
       private Pessoa pessoa;
       private List<Pessoa> listaPessoa = new ArrayList<>();
       private String mascara = "";
-
-      public GetDadosBean() {
-            this.dao = DAOFactory.criarDAO(Pessoa.class);
-      }
 
       public void carregaArquivo(FileUploadEvent event) {
             try {
@@ -55,7 +49,7 @@ public class GetDadosBean implements Serializable {
                   InterfaceImportador importador = tipo.obterTipo();
                   this.pessoas = importador.getDadosImportados(file);
             } catch (IOException e) {
-                  MensagemUtil.mensagem(FacesMessage.SEVERITY_ERROR, "Erro: ",
+                  MetodoUtil.mensagem(FacesMessage.SEVERITY_ERROR, "Erro: ",
                           "Não foi possível carregar os dados . Causa: " + e.getMessage());
             }
       }
@@ -65,20 +59,26 @@ public class GetDadosBean implements Serializable {
       }
 
       public void salvar() {
+            PessoaRN pessoaRN = new PessoaRN();
             for (Pessoa p : pessoas) {
-                  this.dao.salvar(p);
+                  pessoaRN.salvar(p);
             }
+            
+            this.pessoas = new ArrayList<>();
       }
 
       public void deletar() {
-            Pessoa p = (Pessoa) this.dao.pesquisarId(pessoa.getId());
+            PessoaRN pessoaRN = new PessoaRN();
 
-            this.dao.deletar(p);
-            MensagemUtil.mensagem(FacesMessage.SEVERITY_INFO, "Sucesso: ", "Pagamento excluido ");
+            Pessoa p = (Pessoa) pessoaRN.pesquisarId(pessoa.getId());
+
+            pessoaRN.deletar(p);
+            MetodoUtil.mensagem(FacesMessage.SEVERITY_INFO, "Sucesso: ", "Pagamento excluido ");
       }
 
       public List<Pessoa> getListaPessoa() {
-            return listaPessoa;
+            PessoaRN pessoaRN = new PessoaRN();
+            return listaPessoa = pessoaRN.listar();
       }
 
       private int tipoArquivo(String type) {
@@ -99,6 +99,7 @@ public class GetDadosBean implements Serializable {
             opcoes.put("modal", true);
             opcoes.put("resizable", false);
             opcoes.put("contentHeight", 470);
+            opcoes.put("contentWidth", 900);
 
             RequestContext.getCurrentInstance().openDialog("DlgDados", opcoes, null);
       }
@@ -109,10 +110,6 @@ public class GetDadosBean implements Serializable {
 
       public void clienteSelecionado(SelectEvent event) {
             this.pessoa = (Pessoa) event.getObject();
-      }
-
-      public void mascararCampo() {
-           // this.setMascara("999.999.999-99");
       }
 
       public Pessoa getPessoa() {
