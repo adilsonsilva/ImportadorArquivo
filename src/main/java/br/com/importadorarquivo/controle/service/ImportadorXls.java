@@ -6,7 +6,6 @@
 package br.com.importadorarquivo.controle.service;
 
 import br.com.importadorarquivo.modelo.entidade.Pessoa;
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;

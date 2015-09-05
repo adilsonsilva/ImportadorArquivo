@@ -35,7 +35,6 @@ public class GetDadosBean implements Serializable {
       private List<Pessoa> pessoas = new ArrayList<>();
       private Pessoa pessoa;
       private List<Pessoa> listaPessoa = new ArrayList<>();
-      private String mascara = "";
 
       public void carregaArquivo(FileUploadEvent event) {
             try {
@@ -64,6 +63,7 @@ public class GetDadosBean implements Serializable {
                   pessoaRN.salvar(p);
             }
             
+            MetodoUtil.mensagem(FacesMessage.SEVERITY_INFO, "Sucesso: ", "Pagamento importados foram salvos.");
             this.pessoas = new ArrayList<>();
       }
 
